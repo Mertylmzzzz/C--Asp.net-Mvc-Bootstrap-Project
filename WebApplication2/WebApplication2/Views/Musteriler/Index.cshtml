@@ -1,0 +1,36 @@
+﻿@using WebApplication2.Models.Entity
+@model PagedList.IPagedList<Musteriler>
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<table class="table table-bordered">
+    <tr>
+        <th>Müşteri ID</th>
+        <th>Müşteri Adı</th>
+        <th>Müşteri Soyadı</th>
+        <th>SİL</th>
+        <th>GÜNCELLE</th>
+        <th>Alert</th>
+    </tr>
+    <tbody>
+        @foreach (var mstrlr in Model)
+        {
+            <tr>
+                <th>@mstrlr.Musteriid</th>
+                <td>@mstrlr.Musteriad</td>
+                <td>@mstrlr.Musterisoyad</td>
+                <td><a href="/Musteriler/SIL/@mstrlr.Musteriid" class="btn btn-danger">SİL</a></td>
+                <td><a href="/Musteriler/MusteriGetir/@mstrlr.Musteriid" class="btn btn-success">GUNCELE</a></td>
+                <td>@Html.ActionLink("Sil Butonu", "SİL", new { id = mstrlr.Musteriid }, new { @class = "btn btn-warning", onclick = "return confirm('Gerçekten Silmek İstiyor musunu?')" })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+
+<a href="/Musteriler/YeniMusteriler/" class="btn btn-primary">Yeni Müşteri Ekle</a>
+
+
